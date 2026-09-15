@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "payload": "payload"
+    ,"db:init": "node scripts/init-db.cjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.0.0",
