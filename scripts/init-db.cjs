@@ -37,7 +37,7 @@ const statements = [
     created_at timestamptz DEFAULT now(), updated_at timestamptz DEFAULT now()
   )`,
   `CREATE TABLE IF NOT EXISTS products_gallery (
-    id serial PRIMARY KEY, _parent_id integer NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    id varchar PRIMARY KEY, _parent_id integer NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     _order integer NOT NULL DEFAULT 1, image_url varchar NOT NULL
   )`,
   `CREATE TABLE IF NOT EXISTS tickets (
@@ -57,6 +57,10 @@ async function main() {
   await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
   await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_urls varchar`)
+  // Payload creates string IDs for array rows. Earlier bootstrap versions used
+  // a serial ID, which prevents saving photo galleries from the admin panel.
+  await client.query(`ALTER TABLE products_gallery ALTER COLUMN id DROP DEFAULT`)
+  await client.query(`ALTER TABLE products_gallery ALTER COLUMN id TYPE varchar USING id::varchar`)
   const { rows: legacyProducts } = await client.query(`SELECT id, image_url, gallery_urls FROM products`)
   for (const product of legacyProducts) {
     const urls = [product.image_url, ...(product.gallery_urls || '').split(/\r?\n/)].map((url) => url?.trim()).filter(Boolean)
