@@ -15,7 +15,7 @@ export default async function Home() {
       <section className="raffles" id="rifas"><div className="section-heading"><div><p className="eyebrow">DISPONIBLES AHORA</p><h2>Rifas activas</h2></div><span>{docs.length} disponibles</span></div>
         {docs.length ? <div className="grid">{docs.map((product) => <ProductCard key={product.id} product={product as never} />)}</div> : <div className="empty">Aún no hay rifas activas. Crea una desde el panel de administración.</div>}
       </section>
-      <footer>© {new Date().getFullYear()} Tus Rifas. Compra responsablemente.</footer>
+      <footer>© {new Date().getFullYear()} Tus Rifas. Compra responsablemente. <a href="/terminos">Términos y condiciones</a></footer>
     </main>
   )
 }
