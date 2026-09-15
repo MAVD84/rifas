@@ -61,7 +61,7 @@ async function main() {
   for (const product of legacyProducts) {
     const urls = [product.image_url, ...(product.gallery_urls || '').split(/\r?\n/)].map((url) => url?.trim()).filter(Boolean)
     for (const [index, url] of urls.entries()) {
-      await client.query(`INSERT INTO products_gallery (_parent_id, _order, image_url) SELECT $1, $2, $3 WHERE NOT EXISTS (SELECT 1 FROM products_gallery WHERE _parent_id = $1 AND image_url = $3)`, [product.id, index + 1, url])
+      await client.query(`INSERT INTO products_gallery (_parent_id, _order, image_url) SELECT $1, $2, $3::varchar WHERE NOT EXISTS (SELECT 1 FROM products_gallery WHERE _parent_id = $1 AND image_url = $3::varchar)`, [product.id, index + 1, url])
     }
   }
   await client.end()
