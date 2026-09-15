@@ -40,9 +40,8 @@ async function main() {
   const client = new Client({ connectionString: process.env.DATABASE_URL })
   await client.connect()
   for (const statement of statements) await client.query(statement)
-  // Earlier bootstrap versions created this key as an integer; Payload uses UUIDs.
-  await client.query(`ALTER TABLE users_sessions ALTER COLUMN id DROP DEFAULT`)
-  await client.query(`ALTER TABLE users_sessions ALTER COLUMN id TYPE uuid USING NULL::uuid`)
+  // Repair incomplete sessions created during an earlier bootstrap attempt.
+  await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
   await client.end()
   console.log('Neon schema initialized')
 }
