@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (existing.totalDocs + quantity > product.ticketsTotal) return NextResponse.json({ error: 'Ya no quedan suficientes boletos.' }, { status: 409 })
     const folios: string[] = []
     for (let offset = 0; offset < quantity; offset++) {
-      const ticket = await payload.create({ collection: 'tickets', data: { product: productId, number: existing.totalDocs + offset + 1, folio: `R-${productId.slice(-5).toUpperCase()}-${String(existing.totalDocs + offset + 1).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
+      const ticket = await payload.create({ collection: 'tickets', data: { product: Number(productId), number: existing.totalDocs + offset + 1, folio: `R-${productId.slice(-5).toUpperCase()}-${String(existing.totalDocs + offset + 1).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
       folios.push(ticket.folio)
     }
     return NextResponse.json({ folios })
