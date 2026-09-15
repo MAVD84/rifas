@@ -10,7 +10,7 @@ export function TicketForm({ productId, price, remaining, total, unavailable }: 
     event.preventDefault(); setLoading(true); setMessage('')
     const form = new FormData(event.currentTarget)
     if (!selected.length) { setMessage('Elige al menos un número.'); setLoading(false); return }
-    const response = await fetch('/api/tickets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, selectedNumbers: selected, buyerName: form.get('name'), buyerPhone: form.get('phone'), buyerEmail: form.get('email') }) })
+    const response = await fetch('/api/reserve-tickets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, selectedNumbers: selected, buyerName: form.get('name'), buyerPhone: form.get('phone'), buyerEmail: form.get('email') }) })
     const result = await response.json()
     setLoading(false)
     setMessage(response.ok ? `¡Listo! ${selected.length === 1 ? 'Tu número es' : 'Tus números son'} ${selected.join(', ')}. Te contactaremos para confirmar el pago.` : result.error || 'No fue posible registrar tu compra.')

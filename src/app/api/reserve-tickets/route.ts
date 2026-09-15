@@ -11,12 +11,10 @@ export async function POST(request: NextRequest) {
     if (!product || product.status !== 'active') return NextResponse.json({ error: 'Esta rifa no está disponible.' }, { status: 404 })
     const existing = await payload.find({ collection: 'tickets', where: { product: { equals: productId }, paymentStatus: { not_equals: 'cancelled' } }, limit: 10000 })
     if (selectedNumbers.some((number) => number < 1 || number > product.ticketsTotal) || existing.docs.some((ticket) => selectedNumbers.includes(ticket.number))) return NextResponse.json({ error: 'Uno de esos números ya fue apartado. Actualiza la página y elige otro.' }, { status: 409 })
-    const folios: string[] = []
     for (const number of selectedNumbers) {
-      const ticket = await payload.create({ collection: 'tickets', data: { product: Number(productId), number, folio: `R-${productId.slice(-5).toUpperCase()}-${String(number).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
-      folios.push(ticket.folio)
+      await payload.create({ collection: 'tickets', data: { product: Number(productId), number, folio: `R-${productId.slice(-5).toUpperCase()}-${String(number).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
     }
-    return NextResponse.json({ folios })
+    return NextResponse.json({ numbers: selectedNumbers })
   } catch (error) {
     console.error('Ticket purchase failed:', error)
     return NextResponse.json({ error: 'Ocurrió un error al registrar los boletos.' }, { status: 500 })
