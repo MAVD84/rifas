@@ -19,7 +19,7 @@ const statements = [
   )`,
   `CREATE TABLE IF NOT EXISTS payload_preferences_rels (
     id serial PRIMARY KEY, parent_id integer NOT NULL REFERENCES payload_preferences(id) ON DELETE CASCADE,
-    path varchar NOT NULL, users_id integer REFERENCES users(id) ON DELETE CASCADE
+    "order" integer NOT NULL DEFAULT 1, path varchar NOT NULL, users_id integer REFERENCES users(id) ON DELETE CASCADE
   )`,
   `CREATE TABLE IF NOT EXISTS products (
     id serial PRIMARY KEY, name varchar NOT NULL, description varchar NOT NULL,
@@ -42,6 +42,7 @@ async function main() {
   for (const statement of statements) await client.query(statement)
   // Repair incomplete sessions created during an earlier bootstrap attempt.
   await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
+  await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.end()
   console.log('Neon schema initialized')
 }
