@@ -10,7 +10,7 @@ const statements = [
     created_at timestamptz DEFAULT now(), updated_at timestamptz DEFAULT now()
   )`,
   `CREATE TABLE IF NOT EXISTS users_sessions (
-    id serial PRIMARY KEY, _parent_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id uuid PRIMARY KEY, _parent_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     _order integer NOT NULL DEFAULT 1, created_at timestamptz DEFAULT now(), expires_at timestamptz
   )`,
   `CREATE TABLE IF NOT EXISTS products (
@@ -32,6 +32,9 @@ async function main() {
   const client = new Client({ connectionString: process.env.DATABASE_URL })
   await client.connect()
   for (const statement of statements) await client.query(statement)
+  // Earlier bootstrap versions created this key as an integer; Payload uses UUIDs.
+  await client.query(`ALTER TABLE users_sessions ALTER COLUMN id DROP DEFAULT`)
+  await client.query(`ALTER TABLE users_sessions ALTER COLUMN id TYPE uuid USING NULL::uuid`)
   await client.end()
   console.log('Neon schema initialized')
 }
