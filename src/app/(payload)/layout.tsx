@@ -6,7 +6,7 @@ import { serverFunction } from './actions'
 
 export default function PayloadLayout({ children }: { children: React.ReactNode }) {
   return RootLayout({
-    children,
+    children: <div className="payload-shell">{children}</div>,
     config,
     importMap,
     serverFunction,
