@@ -2,7 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Products: CollectionConfig = {
   slug: 'products',
-  admin: { useAsTitle: 'name', defaultColumns: ['name', 'price', 'ticketsTotal', 'status'] },
+  admin: {
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'price', 'ticketsTotal', 'status'],
+    // Arrays such as the photo gallery cannot be reliably updated by Payload's
+    // bulk editor. Keep authors in the document editor, where every gallery row
+    // is saved as a normal product update.
+    disableBulkEdit: true,
+  },
   access: { read: () => true },
   fields: [
     { name: 'name', label: 'Producto', type: 'text', required: true },
