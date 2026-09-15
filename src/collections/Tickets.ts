@@ -2,7 +2,13 @@ import type { CollectionConfig } from 'payload'
 
 export const Tickets: CollectionConfig = {
   slug: 'tickets',
-  access: { create: () => true },
+  access: {
+    // Anyone may request a ticket from the public raffle page.
+    create: () => true,
+    // Only an authenticated Payload administrator can modify or remove tickets.
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
+  },
   admin: { useAsTitle: 'number', defaultColumns: ['number', 'product', 'buyerName', 'paymentStatus'] },
   fields: [
     { name: 'product', type: 'relationship', relationTo: 'products', required: true },
