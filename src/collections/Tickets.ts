@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Tickets: CollectionConfig = {
   slug: 'tickets',
+  access: { create: () => true },
   admin: { useAsTitle: 'folio', defaultColumns: ['folio', 'product', 'buyerName', 'paymentStatus'] },
   fields: [
     { name: 'product', type: 'relationship', relationTo: 'products', required: true },

@@ -17,7 +17,8 @@ export async function POST(request: NextRequest) {
       folios.push(ticket.folio)
     }
     return NextResponse.json({ folios })
-  } catch {
+  } catch (error) {
+    console.error('Ticket purchase failed:', error)
     return NextResponse.json({ error: 'Ocurrió un error al registrar los boletos.' }, { status: 500 })
   }
 }
