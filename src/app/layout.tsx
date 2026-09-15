@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './styles.css'
 
 export const metadata: Metadata = {
-  title: 'Pura Suerte | Rifas en línea',
+  title: 'Tus Rifas | Rifas en línea',
   description: 'Compra boletos para tus rifas favoritas.',
 }
 
