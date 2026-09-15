@@ -11,7 +11,8 @@ export default buildConfig({
   admin: { user: Users.slug, importMap: { baseDir: path.dirname(fileURLToPath(import.meta.url)) } },
   collections: [Users, Products, Tickets],
   editor: lexicalEditor(),
-  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URI } }),
+  // Vercel's Neon integration provides DATABASE_URL. DATABASE_URI is kept for local/manual setups.
+  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL || process.env.DATABASE_URI } }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: { outputFile: 'src/payload-types.ts' },
 })

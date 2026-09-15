@@ -21,7 +21,7 @@ Web app en Next.js + Payload CMS + PostgreSQL (Neon) para administrar productos/
 
 1. Crea un proyecto de Postgres en Neon y copia su cadena de conexión con SSL.
 2. Importa este repositorio en Vercel.
-3. Añade `DATABASE_URI`, `PAYLOAD_SECRET` y `NEXT_PUBLIC_APP_URL` a las variables de entorno de Vercel.
+3. Conecta la integración de Neon en Vercel (crea `DATABASE_URL`) y añade `PAYLOAD_SECRET` y `NEXT_PUBLIC_APP_URL`.
 4. Despliega. Payload crea las tablas al iniciar con la configuración de Postgres.
 
 > Para pagos reales, conecta un proveedor (por ejemplo Stripe o Mercado Pago) y cambia el estado del boleto a `paid` únicamente después del webhook verificado.
