@@ -16,6 +16,7 @@ export const Products: CollectionConfig = {
       ],
     },
     { name: 'imageUrl', label: 'URL de imagen', type: 'text' },
+    { name: 'galleryUrls', label: 'URLs adicionales (una por línea)', type: 'textarea', admin: { description: 'Pega cada URL de imagen en una línea nueva.' } },
     {
       name: 'gallery', label: 'Galería de fotos', type: 'array',
       fields: [{ name: 'imageUrl', label: 'URL de imagen', type: 'text', required: true }],

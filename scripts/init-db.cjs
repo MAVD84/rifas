@@ -56,6 +56,7 @@ async function main() {
   // Repair incomplete sessions created during an earlier bootstrap attempt.
   await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
   await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
+  await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_urls varchar`)
   await client.end()
   console.log('Neon schema initialized')
 }
