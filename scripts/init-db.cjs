@@ -27,6 +27,10 @@ const statements = [
     status varchar NOT NULL DEFAULT 'draft', image_url varchar,
     created_at timestamptz DEFAULT now(), updated_at timestamptz DEFAULT now()
   )`,
+  `CREATE TABLE IF NOT EXISTS products_gallery (
+    id serial PRIMARY KEY, _parent_id integer NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    _order integer NOT NULL DEFAULT 1, image_url varchar NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS tickets (
     id serial PRIMARY KEY, product_id integer NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     number numeric NOT NULL, folio varchar NOT NULL UNIQUE, buyer_name varchar NOT NULL,

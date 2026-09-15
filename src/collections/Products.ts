@@ -16,5 +16,9 @@ export const Products: CollectionConfig = {
       ],
     },
     { name: 'imageUrl', label: 'URL de imagen', type: 'text' },
+    {
+      name: 'gallery', label: 'Galería de fotos', type: 'array',
+      fields: [{ name: 'imageUrl', label: 'URL de imagen', type: 'text', required: true }],
+    },
   ],
 }
