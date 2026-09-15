@@ -4,5 +4,10 @@ import '@payloadcms/next/css'
 import { importMap } from './admin/importMap'
 
 export default function PayloadLayout({ children }: { children: React.ReactNode }) {
-  return RootLayout({ children, config, importMap, serverFunction: handleServerFunctions })
+  return RootLayout({
+    children,
+    config,
+    importMap,
+    serverFunction: (args) => handleServerFunctions({ ...args, config, importMap }),
+  })
 }
