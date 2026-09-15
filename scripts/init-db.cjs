@@ -57,6 +57,13 @@ async function main() {
   await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
   await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_urls varchar`)
+  const { rows: legacyProducts } = await client.query(`SELECT id, image_url, gallery_urls FROM products`)
+  for (const product of legacyProducts) {
+    const urls = [product.image_url, ...(product.gallery_urls || '').split(/\r?\n/)].map((url) => url?.trim()).filter(Boolean)
+    for (const [index, url] of urls.entries()) {
+      await client.query(`INSERT INTO products_gallery (_parent_id, _order, image_url) SELECT $1, $2, $3 WHERE NOT EXISTS (SELECT 1 FROM products_gallery WHERE _parent_id = $1 AND image_url = $3)`, [product.id, index + 1, url])
+    }
+  }
   await client.end()
   console.log('Neon schema initialized')
 }
