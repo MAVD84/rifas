@@ -12,7 +12,11 @@ export default buildConfig({
   collections: [Users, Products, Tickets],
   editor: lexicalEditor(),
   // Vercel's Neon integration provides DATABASE_URL. DATABASE_URI is kept for local/manual setups.
-  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL || process.env.DATABASE_URI } }),
+  db: postgresAdapter({
+    pool: { connectionString: process.env.DATABASE_URL || process.env.DATABASE_URI },
+    // Bootstrap the schema in the newly provisioned Neon database.
+    push: true,
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: { outputFile: 'src/payload-types.ts' },
 })
