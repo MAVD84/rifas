@@ -16,7 +16,7 @@ export default async function RafflePage({ params }: { params: Promise<{ id: str
   const remaining = product.ticketsTotal - sold
   const unavailable = soldTickets.docs.map((ticket) => ticket.number)
   const gallery: string[] = ((product.gallery || []) as Array<{ imageUrl?: string }>).map((image) => image.imageUrl).filter((url: string | undefined): url is string => Boolean(url))
-  return <main className="site"><nav><a className="brand" href="/">suerte<span>.</span></a></nav>
+  return <main className="site"><nav><a className="brand" href="/">pura suerte<span>.</span></a></nav>
     <section className="detail"><ImageGallery images={gallery} /><div><p className="eyebrow">{remaining} BOLETOS DISPONIBLES</p><h1>{product.name}</h1><p className="detail-description">{product.description}</p><div className="stats"><div><small>PRECIO</small><b>${product.price.toLocaleString('es-MX')} MXN</b></div><div><small>SORTEO</small><b>{new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium' }).format(new Date(product.raffleDate))}</b></div></div><TicketForm productId={id} price={product.price} remaining={remaining} total={product.ticketsTotal} unavailable={unavailable} /></div></section>
   </main>
 }
