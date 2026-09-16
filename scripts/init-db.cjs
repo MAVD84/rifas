@@ -57,6 +57,7 @@ async function main() {
   await client.query(`UPDATE users_sessions SET id = gen_random_uuid() WHERE id IS NULL`)
   await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.query(`ALTER TABLE payload_locked_documents ADD COLUMN IF NOT EXISTS global_slug varchar`)
+  await client.query(`ALTER TABLE payload_locked_documents_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_urls varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS first_place varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS second_place varchar`)
