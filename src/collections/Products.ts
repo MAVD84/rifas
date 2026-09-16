@@ -23,6 +23,9 @@ export const Products: CollectionConfig = {
         { label: 'Borrador', value: 'draft' }, { label: 'Activa', value: 'active' }, { label: 'Finalizada', value: 'closed' },
       ],
     },
+    { name: 'winnerFirst', label: 'Número ganador: 1er lugar', type: 'number', min: 1, admin: { condition: (_, siblingData) => siblingData.status === 'closed' } },
+    { name: 'winnerSecond', label: 'Número ganador: 2do lugar', type: 'number', min: 1, admin: { condition: (_, siblingData) => siblingData.status === 'closed' } },
+    { name: 'winnerThird', label: 'Número ganador: 3er lugar', type: 'number', min: 1, admin: { condition: (_, siblingData) => siblingData.status === 'closed' } },
     {
       name: 'gallery', label: 'Galería de fotos', type: 'array',
       fields: [

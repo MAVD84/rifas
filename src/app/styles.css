@@ -14,4 +14,5 @@
 .prize-image{position:relative;flex:0 0 112px;width:112px;height:78px;border-radius:6px;overflow:hidden;background:#d9e5d8}.prizes .prize .prize-image img{width:100%;height:100%;border-radius:0}
 .ml-main span{left:auto;bottom:auto;right:16px;top:16px}
 .ml-thumbs span{display:none}.lightbox{padding:20px}.lightbox img{display:block;width:auto;height:auto;max-width:min(100%,1200px);max-height:calc(100vh - 40px)}
+.winners{margin:22px 0;padding:18px;background:#fff7d7;border:1px solid #f0dc84;border-radius:8px}.winners .eyebrow{margin:0 0 10px}.winners div{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid #ead88a}.winners div:first-of-type{border-top:0}.winners span{font:12px 'DM Mono';color:#755e12}.winners strong{display:grid;place-items:center;min-width:42px;height:34px;border-radius:5px;background:#f4d56a;color:#1d291d}
 }

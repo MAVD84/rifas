@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 
-export function TicketForm({ productId, price, remaining, total, unavailable }: { productId: string; price: number; remaining: number; total: number; unavailable: number[] }) {
+export function TicketForm({ productId, price, remaining, total, unavailable, isClosed = false }: { productId: string; price: number; remaining: number; total: number; unavailable: number[]; isClosed?: boolean }) {
   const [selected, setSelected] = useState<number[]>([])
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
@@ -15,6 +15,7 @@ export function TicketForm({ productId, price, remaining, total, unavailable }: 
     setLoading(false)
     setMessage(response.ok ? `¡Listo! ${selected.length === 1 ? 'Tu número es' : 'Tus números son'} ${selected.join(', ')}. Te contactaremos para confirmar el pago.` : result.error || 'No fue posible registrar tu compra.')
   }
+  if (isClosed) return <div className="sold-out">Esta rifa finalizó. Ya no es posible apartar boletos.</div>
   if (!remaining) return <div className="sold-out">Esta rifa ya agotó sus boletos.</div>
   const reserved = new Set(unavailable)
   const visibleNumbers = Array.from({ length: total }, (_, index) => index + 1)
