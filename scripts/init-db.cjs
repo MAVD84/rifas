@@ -32,7 +32,7 @@ const statements = [
   )`,
   `CREATE TABLE IF NOT EXISTS products (
     id serial PRIMARY KEY, name varchar NOT NULL, description varchar NOT NULL,
-    price numeric NOT NULL, tickets_total numeric NOT NULL, raffle_date timestamptz NOT NULL,
+    price numeric NOT NULL, tickets_total numeric NOT NULL, raffle_date timestamptz,
     status varchar NOT NULL DEFAULT 'draft', image_url varchar,
     created_at timestamptz DEFAULT now(), updated_at timestamptz DEFAULT now()
   )`,
@@ -58,6 +58,7 @@ async function main() {
   await client.query(`ALTER TABLE payload_preferences_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
   await client.query(`ALTER TABLE payload_locked_documents ADD COLUMN IF NOT EXISTS global_slug varchar`)
   await client.query(`ALTER TABLE payload_locked_documents_rels ADD COLUMN IF NOT EXISTS "order" integer NOT NULL DEFAULT 1`)
+  await client.query(`ALTER TABLE products ALTER COLUMN raffle_date DROP NOT NULL`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_urls varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS first_place varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS second_place varchar`)
