@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-async function notifyTelegram({ productName, numbers, buyerName, buyerPhone }: { productName: string; numbers: number[]; buyerName: string; buyerPhone: string }) {
+async function notifyTelegram({ productName, numbers, buyerName, buyerPhone, buyerEmail }: { productName: string; numbers: number[]; buyerName: string; buyerPhone: string; buyerEmail?: string }) {
   const token = process.env.TELEGRAM_BOT_TOKEN
   const chatId = process.env.TELEGRAM_CHAT_ID
   if (!token || !chatId) return
@@ -13,6 +13,7 @@ async function notifyTelegram({ productName, numbers, buyerName, buyerPhone }: {
     `Número${numbers.length === 1 ? '' : 's'}: ${numbers.join(', ')}`,
     `Cliente: ${buyerName}`,
     `WhatsApp: ${buyerPhone}`,
+    ...(buyerEmail ? [`Correo: ${buyerEmail}`] : []),
   ].join('\n')
 
   try {
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
     for (const number of selectedNumbers) {
       await payload.create({ collection: 'tickets', data: { product: Number(productId), number, folio: `R-${productId.slice(-5).toUpperCase()}-${String(number).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
     }
-    await notifyTelegram({ productName: product.name, numbers: selectedNumbers, buyerName, buyerPhone })
+    await notifyTelegram({ productName: product.name, numbers: selectedNumbers, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined })
     return NextResponse.json({ numbers: selectedNumbers })
   } catch (error) {
     console.error('Ticket purchase failed:', error)
