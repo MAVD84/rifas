@@ -7,6 +7,9 @@ export const Products: CollectionConfig = {
   fields: [
     { name: 'name', label: 'Producto', type: 'text', required: true },
     { name: 'description', label: 'Descripción', type: 'textarea', required: true },
+    { name: 'firstPlace', label: 'Premio: 1er lugar', type: 'text', admin: { description: 'Opcional. Ejemplo: Pulsera de oro 14k.' } },
+    { name: 'secondPlace', label: 'Premio: 2do lugar', type: 'text', admin: { description: 'Opcional.' } },
+    { name: 'thirdPlace', label: 'Premio: 3er lugar', type: 'text', admin: { description: 'Opcional.' } },
     { name: 'price', label: 'Precio por boleto (MXN)', type: 'number', required: true, min: 1 },
     { name: 'ticketsTotal', label: 'Cantidad de boletos', type: 'number', required: true, min: 1 },
     { name: 'raffleDate', label: 'Fecha del sorteo', type: 'date', required: true },
