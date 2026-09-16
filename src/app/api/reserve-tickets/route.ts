@@ -2,6 +2,31 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+async function notifyTelegram({ productName, numbers, buyerName, buyerPhone }: { productName: string; numbers: number[]; buyerName: string; buyerPhone: string }) {
+  const token = process.env.TELEGRAM_BOT_TOKEN
+  const chatId = process.env.TELEGRAM_CHAT_ID
+  if (!token || !chatId) return
+
+  const text = [
+    '🎟️ Nuevo apartado en Tus Rifas',
+    `Producto: ${productName}`,
+    `Número${numbers.length === 1 ? '' : 's'}: ${numbers.join(', ')}`,
+    `Cliente: ${buyerName}`,
+    `WhatsApp: ${buyerPhone}`,
+  ].join('\n')
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text }),
+    })
+  } catch (error) {
+    // A notification problem must never prevent a customer from reserving tickets.
+    console.error('Telegram notification failed:', error)
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { productId, selectedNumbers, buyerName, buyerPhone, buyerEmail } = await request.json()
@@ -14,6 +39,7 @@ export async function POST(request: NextRequest) {
     for (const number of selectedNumbers) {
       await payload.create({ collection: 'tickets', data: { product: Number(productId), number, folio: `R-${productId.slice(-5).toUpperCase()}-${String(number).padStart(4, '0')}`, buyerName, buyerPhone, buyerEmail: buyerEmail || undefined, paymentStatus: 'pending' } })
     }
+    await notifyTelegram({ productName: product.name, numbers: selectedNumbers, buyerName, buyerPhone })
     return NextResponse.json({ numbers: selectedNumbers })
   } catch (error) {
     console.error('Ticket purchase failed:', error)
