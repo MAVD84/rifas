@@ -25,7 +25,17 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'gallery', label: 'Galería de fotos', type: 'array',
-      fields: [{ name: 'imageUrl', label: 'URL de imagen', type: 'text', required: true }],
+      fields: [
+        { name: 'imageUrl', label: 'URL de imagen', type: 'text', required: true },
+        {
+          name: 'placement', label: 'Mostrar como', type: 'select', required: true, defaultValue: 'gallery', options: [
+            { label: 'Galería general', value: 'gallery' },
+            { label: 'Imagen del 1er lugar', value: 'first' },
+            { label: 'Imagen del 2do lugar', value: 'second' },
+            { label: 'Imagen del 3er lugar', value: 'third' },
+          ],
+        },
+      ],
     },
   ],
 }
