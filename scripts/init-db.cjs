@@ -60,6 +60,7 @@ async function main() {
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS first_place varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS second_place varchar`)
   await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS third_place varchar`)
+  await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS draw_mode varchar NOT NULL DEFAULT 'scheduled'`)
   // Payload creates string IDs for array rows. Earlier bootstrap versions used
   // a serial ID, which prevents saving photo galleries from the admin panel.
   await client.query(`ALTER TABLE products_gallery ALTER COLUMN id DROP DEFAULT`)

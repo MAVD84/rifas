@@ -12,7 +12,12 @@ export const Products: CollectionConfig = {
     { name: 'thirdPlace', label: 'Premio: 3er lugar', type: 'text', admin: { description: 'Opcional.' } },
     { name: 'price', label: 'Precio por boleto (MXN)', type: 'number', required: true, min: 1 },
     { name: 'ticketsTotal', label: 'Cantidad de boletos', type: 'number', required: true, min: 1 },
-    { name: 'raffleDate', label: 'Fecha del sorteo', type: 'date', required: true },
+    {
+      name: 'drawMode', label: 'Modalidad del sorteo', type: 'select', required: true, defaultValue: 'scheduled', options: [
+        { label: 'Fecha programada', value: 'scheduled' }, { label: 'Hasta agotar boletos', value: 'sell_out' },
+      ],
+    },
+    { name: 'raffleDate', label: 'Fecha del sorteo', type: 'date', admin: { condition: (_, siblingData) => siblingData.drawMode !== 'sell_out' } },
     {
       name: 'status', type: 'select', required: true, defaultValue: 'draft', options: [
         { label: 'Borrador', value: 'draft' }, { label: 'Activa', value: 'active' }, { label: 'Finalizada', value: 'closed' },
