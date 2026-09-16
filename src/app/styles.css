@@ -13,4 +13,5 @@
 .prizes .prize{align-items:center}.prizes .prize img{width:58px;height:58px;object-fit:cover;border-radius:6px;background:#d9e5d8}.prizes .prize>div{display:block;flex:1;padding:0;border:0}.prizes .prize span{display:block;margin-bottom:3px}
 .prize-image{position:relative;flex:0 0 112px;width:112px;height:78px;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:zoom-in;background:#d9e5d8}.prizes .prize .prize-image img{width:100%;height:100%;border-radius:0}.prize-image span{position:absolute;top:7px;right:7px;min-width:0;margin:0!important;padding:5px 6px;background:#f4d56a;color:#1d291d;font:9px 'DM Mono';text-transform:uppercase;border-radius:2px}
 .ml-main span{left:auto;bottom:auto;right:16px;top:16px}
+.ml-thumbs span{display:none}.lightbox{padding:20px}.lightbox img{display:block;width:auto;height:auto;max-width:min(100%,1200px);max-height:calc(100vh - 40px)}
 }
